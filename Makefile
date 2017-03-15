@@ -1,6 +1,6 @@
 CFLAGS = -msse2 --std gnu99 -O0 -Wall -Wextra
 
-EXEC = naive_transpose see_transpose see_prefetch_transpose
+EXEC = naive_transpose see_transpose see_prefetch_transpose verify
 
 GIT_HOOKS := .git/hooks/applied
 
@@ -26,6 +26,11 @@ see_prefetch_transpose: $(SRCS_common)
 	$(CC) $(CFLAGS) -o $@ \
 	-D SEE_PREFETCH \
 	$(SRCS_common)
+
+verify: verify.c
+	$(CC) $(CFLAGS) -o $@ \
+	-D SEE_PREFETCH \
+	verify.c
 
 run: $(EXEC)
 
