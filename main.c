@@ -4,11 +4,9 @@
 #include <sys/time.h>
 #include <string.h>
 #include <assert.h>
+#include <unistd.h>
 
 #include <xmmintrin.h>
-
-#define TEST_W 4096
-#define TEST_H 4096
 
 /* provide the implementations of naive_transpose,
  * sse_transpose, sse_prefetch_transpose
@@ -29,8 +27,22 @@ static double diff_in_us(struct timespec t1, struct timespec t2)
     return (diff.tv_sec * 1000000.0 + diff.tv_nsec / 1000.0);
 }
 
-int main()
+int main(int argc, char const *argv[])
 {
+    int TEST_W = 4096, TEST_H = 4096;
+    int args;
+
+    while (-1 != (args = getopt(argc, argv, "w:h:"))) {
+        switch (args) {
+            case 'w':
+                TEST_W = atoi(optarg);
+                break;
+            case 'h':
+                TEST_H = atoi(optarg);
+                break;
+        }
+    }
+
     struct timespec start, end;
     int *src  = (int *) malloc(sizeof(int) * TEST_W * TEST_H);
     int *out = (int *) malloc(sizeof(int) * TEST_W * TEST_H);
