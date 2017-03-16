@@ -7,6 +7,7 @@
 #include <unistd.h>
 
 #include <xmmintrin.h>
+#include <immintrin.h>
 
 /* provide the implementations of naive_transpose,
  * sse_transpose, sse_prefetch_transpose

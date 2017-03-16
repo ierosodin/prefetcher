@@ -1,6 +1,6 @@
 CFLAGS = -msse2 --std gnu99 -O0 -Wall -Wextra
 
-EXEC = naive_transpose see_transpose see_prefetch_transpose verify
+EXEC = naive_transpose see_transpose see_prefetch_transpose avx_transpose verify
 
 GIT_HOOKS := .git/hooks/applied
 
@@ -27,17 +27,20 @@ see_prefetch_transpose: $(SRCS_common)
 	-D SEE_PREFETCH \
 	$(SRCS_common)
 
+avx_transpose: $(SRCS_common)
+	$(CC) $(CFLAGS) -mavx -o $@ \
+	-D AVX \
+	$(SRCS_common)
+
 verify: verify.c
 	$(CC) $(CFLAGS) -o $@ \
-	-D SEE_PREFETCH \
+	-D AVX \
 	verify.c
 
 gencsv:
-	for i in `seq 120 40 4100`; do \
+	for i in `seq 1604 4 1792`; do \
 		printf "%d " $$i; \
-		./naive_transpose -w $$i -h $$i; \
 		./see_transpose -w $$i -h $$i; \
-		./see_prefetch_transpose -w $$i -h $$i; \
 		printf "\n";\
 	done > result.csv
 	gnuplot scripts/bench.gp
