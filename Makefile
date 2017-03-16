@@ -1,6 +1,6 @@
-CFLAGS = -msse2 --std gnu99 -O0 -Wall -Wextra
+CFLAGS = -msse2 --std gnu99 -O0 -Wall -Wextra -mavx
 
-EXEC = naive_transpose see_transpose see_prefetch_transpose avx_transpose verify
+EXEC = naive_transpose sse_transpose see_prefetch_transpose avx_transpose verify
 
 GIT_HOOKS := .git/hooks/applied
 
@@ -17,18 +17,18 @@ naive_transpose: $(SRCS_common)
 	-D NAIVE \
 	$(SRCS_common)
 
-see_transpose: $(SRCS_common)
+sse_transpose: $(SRCS_common)
 	$(CC) $(CFLAGS) -o $@ \
-	-D SEE \
+	-D SSE \
 	$(SRCS_common)
 
-see_prefetch_transpose: $(SRCS_common)
+sse_prefetch_transpose: $(SRCS_common)
 	$(CC) $(CFLAGS) -o $@ \
-	-D SEE_PREFETCH \
+	-D SSE_PREFETCH \
 	$(SRCS_common)
 
 avx_transpose: $(SRCS_common)
-	$(CC) $(CFLAGS) -mavx -o $@ \
+	$(CC) $(CFLAGS) -o $@ \
 	-D AVX \
 	$(SRCS_common)
 

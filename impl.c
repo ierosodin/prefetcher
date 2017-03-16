@@ -10,7 +10,7 @@ void transpose(int *src, int *dst, int w, int h)
 }
 #endif
 
-#ifdef SEE
+#ifdef SSE
 void transpose(int *src, int *dst, int w, int h)
 {
     for (int x = 0; x < w; x += 4) {
@@ -36,7 +36,7 @@ void transpose(int *src, int *dst, int w, int h)
 }
 #endif
 
-#ifdef SEE_PREFETCH
+#ifdef SSE_PREFETCH
 void transpose(int *src, int *dst, int w, int h)
 {
     for (int x = 0; x < w; x += 4) {
