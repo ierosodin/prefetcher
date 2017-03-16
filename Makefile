@@ -32,6 +32,16 @@ verify: verify.c
 	-D SEE_PREFETCH \
 	verify.c
 
+gencsv:
+	for i in `seq 120 40 4100`; do \
+		printf "%d " $$i; \
+		./naive_transpose -w $$i -h $$i; \
+		./see_transpose -w $$i -h $$i; \
+		./see_prefetch_transpose -w $$i -h $$i; \
+		printf "\n";\
+	done > result.csv
+	gnuplot scripts/bench.gp
+
 run: $(EXEC)
 
 .PHONY: clean

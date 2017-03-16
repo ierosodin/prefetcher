@@ -55,7 +55,7 @@ int main(int argc, char const *argv[])
     clock_gettime(CLOCK_REALTIME, &start);
     transpose(src, out, TEST_W, TEST_H);
     clock_gettime(CLOCK_REALTIME, &end);
-    printf("%lf\n", diff_in_us(start, end)/1000000);
+    printf("%lf ", diff_in_us(start, end)/1000000);
 
     free(out);
     free(src);
